@@ -862,6 +862,64 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- TELA DE ACESSO -->
+<div id="telaAcesso" style="position:fixed;inset:0;z-index:99999;background:#303543;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Barlow Condensed',sans-serif;">
+  <div style="margin-bottom:32px;text-align:center;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#F26765;margin-bottom:14px;">Projeto eCoop · Biotrop × ZMP</div>
+    <div style="font-size:40px;font-weight:800;text-transform:uppercase;color:#ffffff;">Cockpit <span style="color:#F26765;">Estratégico</span></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;margin-top:8px;">Acesso Restrito · 2026</div>
+  </div>
+  <div style="background:rgba(66,71,101,0.6);border:1px solid rgba(242,103,101,0.3);border-radius:10px;padding:36px 40px;width:340px;text-align:center;">
+    <div style="font-size:28px;margin-bottom:16px;">🔐</div>
+    <div style="font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ffffff;margin-bottom:6px;">Área Restrita</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:24px;font-family:'Open Sans',sans-serif;">Insira sua senha de acesso</div>
+    <input id="senhaInput" type="password" placeholder="Senha de acesso"
+      style="width:100%;background:rgba(48,53,67,0.95);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:12px 14px;color:#ffffff;font-size:14px;font-family:'Open Sans',sans-serif;margin-bottom:8px;box-sizing:border-box;outline:none;"
+      onkeydown="if(event.key==='Enter')entrar()">
+    <div id="erroSenha" style="color:#F26765;font-size:11px;min-height:16px;margin-bottom:12px;font-family:'Open Sans',sans-serif;"></div>
+    <button onclick="entrar()" style="width:100%;padding:13px;background:rgba(242,103,101,0.2);border:1px solid rgba(242,103,101,0.6);border-radius:6px;color:#F26765;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+      Acessar →
+    </button>
+  </div>
+  <div style="margin-top:28px;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;font-family:'Open Sans',sans-serif;">ZMP Consultoria · Confidencial</div>
+</div>
+
+<script>
+var SENHAS = { 'ecoop2026':'Biotrop', 'zmp2026':'ZMP', '04012018':'Admin' };
+function entrar() {
+  var v = document.getElementById('senhaInput').value;
+  var perfil = SENHAS[v];
+  if (!perfil) {
+    document.getElementById('erroSenha').textContent = 'Senha incorreta.';
+    document.getElementById('senhaInput').value = '';
+    return;
+  }
+  sessionStorage.setItem('btp_ok', perfil);
+  // Registra no Analytics
+  try { gtag('event', 'login', { method: perfil, event_category: 'Acesso' }); } catch(e){}
+  var t = document.getElementById('telaAcesso');
+  t.style.opacity = '0';
+  t.style.transition = 'opacity 0.4s';
+  setTimeout(function(){ t.style.display = 'none'; }, 400);
+}
+// Verifica sessão salva
+if (sessionStorage.getItem('btp_ok')) {
+  document.addEventListener('DOMContentLoaded', function(){
+    var t = document.getElementById('telaAcesso');
+    if (t) t.style.display = 'none';
+  });
+}
+</script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LL50Y7S9V5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LL50Y7S9V5');
+</script>
 <div class="stripe-decor"></div>
 
 <!-- FORMAT BAR -->
