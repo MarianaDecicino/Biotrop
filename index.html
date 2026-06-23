@@ -859,53 +859,9 @@ footer {
   .zmp-posts-grid { grid-template-columns: 1fr; }
   .zmp-featured { grid-column: span 1; }
 }
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LL50Y7S9V5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LL50Y7S9V5');
-</script>
-
 </head>
 <body>
 
-<!-- ══ TELA DE ACESSO ══ -->
-<div id="telaAcesso" style="position:fixed;inset:0;z-index:99999;background:#303543;display:flex;align-items:center;justify-content:center;flex-direction:column;">
-  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(242,103,101,0.06) 0%,transparent 50%),linear-gradient(225deg,rgba(19,187,179,0.05) 0%,transparent 50%);pointer-events:none;"></div>
-
-  <div style="text-align:center;margin-bottom:40px;position:relative;">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#F26765;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
-      <span style="display:inline-block;width:28px;height:2px;background:#F26765;"></span>
-      Projeto eCoop · Biotrop × ZMP
-      <span style="display:inline-block;width:28px;height:2px;background:#F26765;"></span>
-    </div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;color:#ffffff;line-height:1.1;">
-      Cockpit <span style="color:#F26765;">Estratégico</span>
-    </div>
-    <div style="font-family:'Barlow',sans-serif;font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-top:8px;">Acesso Restrito · 2026</div>
-  </div>
-
-  <div style="background:rgba(66,71,101,0.6);border:1px solid rgba(242,103,101,0.3);border-radius:10px;padding:36px 40px;width:360px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
-    <div style="font-size:28px;text-align:center;margin-bottom:16px;">🔐</div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ffffff;text-align:center;margin-bottom:6px;">Área Restrita</div>
-    <div style="font-family:'Open Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.55);text-align:center;margin-bottom:24px;">Insira sua senha de acesso para continuar</div>
-
-    <input id="senhaAcesso" type="password" placeholder="Senha de acesso"
-      onkeydown="if(event.key==='Enter')verificarAcesso()"
-      style="width:100%;background:rgba(48,53,67,0.95);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:12px 14px;color:#ffffff;font-size:14px;font-family:'Open Sans',sans-serif;margin-bottom:8px;box-sizing:border-box;outline:none;">
-    <div id="erroAcesso" style="color:#F26765;font-size:11px;min-height:16px;margin-bottom:12px;text-align:center;font-family:'Open Sans',sans-serif;"></div>
-
-    <button onclick="verificarAcesso()" style="width:100%;padding:13px;background:rgba(242,103,101,0.2);border:1px solid rgba(242,103,101,0.6);border-radius:6px;color:#F26765;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
-      Acessar →
-    </button>
-  </div>
-
-  <div style="margin-top:32px;font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;">
-    ZMP Consultoria · Confidencial
-  </div>
-</div>
 <div class="stripe-decor"></div>
 
 <!-- FORMAT BAR -->
@@ -2377,57 +2333,6 @@ function setTag(id, tagKey, tagCls, label) {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.tag-selector') && !e.target.closest('.status-selector')) {
     document.querySelectorAll('.tag-dropdown,.status-dropdown').forEach(function(d){ d.classList.remove('open'); });
-  }
-});
-
-// ══════════════════════════════════════════════
-// SISTEMA DE ACESSO POR SENHA
-// ══════════════════════════════════════════════
-var ACESSOS = {
-  'ecoop2026': 'Biotrop',
-  'zmp2026':   'ZMP',
-  '04012018':  'Admin'
-};
-
-function verificarAcesso() {
-  var senha = document.getElementById('senhaAcesso').value.trim();
-  var perfil = ACESSOS[senha];
-
-  if (!perfil) {
-    document.getElementById('erroAcesso').textContent = 'Senha incorreta. Tente novamente.';
-    document.getElementById('senhaAcesso').value = '';
-    document.getElementById('senhaAcesso').focus();
-    try { gtag('event', 'acesso_negado', { event_category: 'Segurança', event_label: 'Senha inválida' }); } catch(e){}
-    return;
-  }
-
-  try {
-    gtag('event', 'login', { event_category: 'Acesso', event_label: 'Perfil: ' + perfil, method: perfil });
-    gtag('set', 'user_properties', { perfil_acesso: perfil });
-  } catch(e){}
-
-  // Esconde tela de acesso
-  var tela = document.getElementById('telaAcesso');
-  tela.style.opacity = '0';
-  tela.style.transition = 'opacity 0.4s ease';
-  setTimeout(function(){ tela.style.display = 'none'; }, 400);
-
-  // Salva sessão
-  sessionStorage.setItem('biotrop_acesso', perfil);
-
-  // Se for Admin, já entra em modo edição
-  if (perfil === 'Admin') {
-    setTimeout(function(){ ativarEdicao(); }, 500);
-  }
-}
-
-// Verifica se já tem sessão ativa (evita pedir senha de novo ao recarregar)
-document.addEventListener('DOMContentLoaded', function() {
-  var sessao = sessionStorage.getItem('biotrop_acesso');
-  if (sessao) {
-    var tela = document.getElementById('telaAcesso');
-    if (tela) tela.style.display = 'none';
-    if (sessao === 'Admin') ativarEdicao();
   }
 });
 
