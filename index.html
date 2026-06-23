@@ -859,67 +859,9 @@ footer {
   .zmp-posts-grid { grid-template-columns: 1fr; }
   .zmp-featured { grid-column: span 1; }
 }
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LL50Y7S9V5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LL50Y7S9V5');
-</script>
-
+</style>
 </head>
 <body>
-
-<!-- ══ TELA DE ACESSO ══ -->
-<div id="telaAcesso" style="
-  position:fixed;inset:0;z-index:99999;
-  background:var(--navy);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;
-">
-  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(242,103,101,0.06) 0%,transparent 50%),linear-gradient(225deg,rgba(19,187,179,0.05) 0%,transparent 50%);pointer-events:none;"></div>
-
-  <div style="text-align:center;margin-bottom:40px;position:relative;">
-    <div style="font-family:var(--font-title);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
-      <span style="display:inline-block;width:28px;height:2px;background:var(--coral);"></span>
-      Projeto eCoop · Biotrop × ZMP
-      <span style="display:inline-block;width:28px;height:2px;background:var(--coral);"></span>
-    </div>
-    <div style="font-family:var(--font-title);font-size:clamp(28px,4vw,44px);font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;color:var(--white);line-height:1.1;">
-      Cockpit <span style="color:var(--coral);">Estratégico</span>
-    </div>
-    <div style="font-family:var(--font-sub);font-size:12px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px;">Acesso Restrito · 2026</div>
-  </div>
-
-  <div style="background:rgba(66,71,101,0.35);border:1px solid rgba(242,103,101,0.2);border-radius:10px;padding:36px 40px;width:360px;position:relative;backdrop-filter:blur(10px);">
-    <div style="font-size:28px;text-align:center;margin-bottom:16px;">🔐</div>
-    <div style="font-family:var(--font-title);font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);text-align:center;margin-bottom:6px;">Área Restrita</div>
-    <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:24px;">Insira sua senha de acesso para continuar</div>
-
-    <input id="senhaAcesso" type="password" placeholder="Senha de acesso"
-      onkeydown="if(event.key==='Enter')verificarAcesso()"
-      style="width:100%;background:rgba(48,53,67,0.9);border:1px solid rgba(255,255,255,0.12);
-      border-radius:6px;padding:11px 14px;color:var(--white);font-size:14px;
-      font-family:var(--font-body);margin-bottom:8px;box-sizing:border-box;outline:none;
-      transition:border-color 0.2s;">
-    <div id="erroAcesso" style="color:var(--coral);font-size:11px;min-height:16px;margin-bottom:12px;text-align:center;"></div>
-
-    <button onclick="verificarAcesso()" style="
-      width:100%;padding:12px;
-      background:linear-gradient(135deg,rgba(242,103,101,0.25),rgba(242,103,101,0.15));
-      border:1px solid rgba(242,103,101,0.5);border-radius:6px;
-      color:var(--coral);font-family:var(--font-title);font-size:13px;font-weight:700;
-      letter-spacing:2px;text-transform:uppercase;cursor:pointer;
-      transition:all 0.2s;">
-      Acessar →
-    </button>
-  </div>
-
-  <div style="margin-top:32px;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;">
-    ZMP Consultoria · Confidencial
-  </div>
-</div>
 <div class="stripe-decor"></div>
 
 <!-- FORMAT BAR -->
@@ -2281,9 +2223,6 @@ function showPage(pageId, navEl) {
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   document.getElementById(pageId).classList.add('active');
   navEl.classList.add('active');
-  // Rastreia navegação
-  var nomes = { page1:'Ações Cooperativas', page2:'Informações de Mercado', page3:'Informações Cooperativas', page4:'Bioconecta 2026', page5:'Atualizações ZMP' };
-  try { gtag('event', 'page_view', { page_title: nomes[pageId] || pageId, page_location: window.location.href + '#' + pageId }); } catch(e){}
 }
 
 // ── FORMAT BAR ──
@@ -2393,58 +2332,6 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.tag-dropdown,.status-dropdown').forEach(function(d){ d.classList.remove('open'); });
   }
 });
-
-// ══════════════════════════════════════════════
-// SISTEMA DE ACESSO POR SENHA
-// ══════════════════════════════════════════════
-var ACESSOS = {
-  'ecoop2026': 'Biotrop',
-  'zmp2026':   'ZMP',
-  '04012018':  'Admin'
-};
-
-function verificarAcesso() {
-  var senha = document.getElementById('senhaAcesso').value.trim();
-  var perfil = ACESSOS[senha];
-
-  if (!perfil) {
-    document.getElementById('erroAcesso').textContent = 'Senha incorreta. Tente novamente.';
-    document.getElementById('senhaAcesso').value = '';
-    document.getElementById('senhaAcesso').focus();
-    try { gtag('event', 'acesso_negado', { event_category: 'Segurança', event_label: 'Senha inválida' }); } catch(e){}
-    return;
-  }
-
-  try {
-    gtag('event', 'login', { event_category: 'Acesso', event_label: 'Perfil: ' + perfil, method: perfil });
-    gtag('set', 'user_properties', { perfil_acesso: perfil });
-  } catch(e){}
-
-  // Esconde tela de acesso
-  var tela = document.getElementById('telaAcesso');
-  tela.style.opacity = '0';
-  tela.style.transition = 'opacity 0.4s ease';
-  setTimeout(function(){ tela.style.display = 'none'; }, 400);
-
-  // Salva sessão
-  sessionStorage.setItem('biotrop_acesso', perfil);
-
-  // Se for Admin, já entra em modo edição
-  if (perfil === 'Admin') {
-    setTimeout(function(){ ativarEdicao(); }, 500);
-  }
-}
-
-// Verifica se já tem sessão ativa (evita pedir senha de novo ao recarregar)
-(function() {
-  var sessao = sessionStorage.getItem('biotrop_acesso');
-  if (sessao) {
-    document.getElementById('telaAcesso').style.display = 'none';
-    if (sessao === 'Admin') {
-      window.addEventListener('load', function(){ ativarEdicao(); });
-    }
-  }
-})();
 
 // ══════════════════════════════════════════════
 // CONFIGURAÇÃO JSONBIN
@@ -3036,6 +2923,7 @@ function criarCoop() {
 
 function renderExtraCoop(coop) {
   var container = document.getElementById('coopsExtras');
+  var addBtn    = document.getElementById('addCoopBtn');
 
   var dot = coop.hasDot ? '<span class="badge-dot"></span>' : '';
   var wrap = document.createElement('div');
@@ -3051,6 +2939,7 @@ function renderExtraCoop(coop) {
           '<div class="coop-date" contenteditable="true">' + coop.data + '</div>' +
         '</div>' +
         '<div style="margin-left:auto;display:flex;gap:8px;align-items:center;">' +
+          // TAG
           '<div class="tag-selector" id="tag-' + coop.id + '">' +
             '<span class="coop-tag ' + coop.tagCls + '" onclick="toggleTag(\'' + coop.id + '\')">' + coop.tagLabel + '</span>' +
             '<div class="tag-dropdown" id="tdd-' + coop.id + '">' +
@@ -3059,6 +2948,7 @@ function renderExtraCoop(coop) {
               '<div class="tag-opt" data-tag="prosp"   onclick="setTag(\'' + coop.id + '\',\'prosp\',\'tag-prosp\',\'Coop. em Prospecção\')"><span class="tag-dot"></span>Coop. em Prospecção</div>' +
             '</div>' +
           '</div>' +
+          // STATUS
           '<div class="status-selector" id="sel-' + coop.id + '">' +
             '<span class="badge ' + coop.badgeClass + '" onclick="toggleDropdown(\'' + coop.id + '\')">' + dot + coop.statusLabel + '</span>' +
             '<div class="status-dropdown" id="dd-' + coop.id + '">' +
@@ -3070,6 +2960,7 @@ function renderExtraCoop(coop) {
               '<div class="status-opt" data-status="pausado"        onclick="setStatus(\'' + coop.id + '\',\'pausado\',\'⏸ Pausado\',\'badge-muted\',false)"><span class="opt-dot"></span>Pausado</div>' +
             '</div>' +
           '</div>' +
+          // REMOVER
           '<button onclick="removerCoop(\'' + coop.id + '\')" title="Remover cooperativa" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:4px;color:var(--text-muted);padding:3px 7px;cursor:pointer;font-size:12px;transition:var(--transition);" onmouseover="this.style.color=\'var(--coral)\';this.style.borderColor=\'var(--coral)\'" onmouseout="this.style.color=\'\';this.style.borderColor=\'\'">✕</button>' +
         '</div>' +
       '</div>' +
@@ -3085,13 +2976,7 @@ function renderExtraCoop(coop) {
       '</div>' +
     '</div>';
 
-  container.appendChild(wrap);
-
-  // Aplica o estado correto de edição nos novos elementos
-  var ceState = editMode ? 'true' : 'false';
-  wrap.querySelectorAll('[contenteditable]').forEach(function(el){
-    el.setAttribute('contenteditable', ceState);
-  });
+  container.insertBefore(wrap, addBtn);
 }
 
 function removerCoop(id) {
