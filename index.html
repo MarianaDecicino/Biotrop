@@ -727,9 +727,199 @@ footer {
 @media(max-width:900px){
   .visual-gallery { grid-template-columns: repeat(2,1fr); }
 }
-</style>
+/* ── TAG SELETOR COOPERATIVA ── */
+.tag-selector { position:relative; display:inline-block; }
+.coop-tag {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+  padding:3px 9px; border-radius:20px; cursor:pointer; user-select:none;
+  transition: var(--transition);
+}
+.coop-tag::after { content:' ▾'; font-size:9px; opacity:0.7; }
+.coop-tag:hover { filter:brightness(1.15); transform:translateY(-1px); }
+.tag-nova    { background:rgba(160,100,220,0.15); color:#a064dc; border:1px solid rgba(160,100,220,0.35); }
+.tag-ongoing { background:rgba(19,187,179,0.15);  color:var(--teal); border:1px solid rgba(19,187,179,0.35); }
+.tag-prosp   { background:rgba(240,192,64,0.15);  color:#f0c040;  border:1px solid rgba(240,192,64,0.35); }
+
+.tag-dropdown {
+  display:none; position:absolute; top:calc(100% + 6px); right:0;
+  background:#1e2130; border:1px solid rgba(242,103,101,0.3);
+  border-radius:6px; padding:6px; z-index:500; min-width:210px;
+  box-shadow:0 8px 28px rgba(0,0,0,0.5); flex-direction:column; gap:4px;
+}
+.tag-dropdown.open { display:flex; }
+.tag-opt {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 10px; border-radius:4px; cursor:pointer;
+  font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  transition:background 0.15s; white-space:nowrap;
+}
+.tag-opt:hover { background:rgba(255,255,255,0.08); }
+.tag-opt .tag-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.tag-opt[data-tag="nova"]    .tag-dot { background:#a064dc; }
+.tag-opt[data-tag="ongoing"] .tag-dot { background:var(--teal); }
+.tag-opt[data-tag="prosp"]   .tag-dot { background:#f0c040; }
+/* ── ADD COOP BUTTON ── */
+.add-coop-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 16px;
+  background: rgba(66,71,101,0.2); border: 2px dashed rgba(242,103,101,0.3);
+  border-radius: var(--radius); color: var(--text-muted);
+  font-family: var(--font-title); font-size: 13px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: var(--transition);
+}
+.add-coop-btn:hover {
+  border-color: var(--coral); color: var(--coral);
+  background: rgba(242,103,101,0.06); transform: translateY(-1px);
+}
+
+/* ── MODAL COOP FIELDS ── */
+.modal-field-label {
+  font-family: var(--font-title); font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--coral);
+  margin-bottom: 6px; margin-top: 14px;
+}
+.modal-input, .modal-select, .modal-textarea {
+  width: 100%; background: rgba(48,53,67,0.9);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 6px;
+  padding: 9px 12px; color: var(--white);
+  font-family: var(--font-body); font-size: 13px;
+  box-sizing: border-box; outline: none; transition: border-color 0.2s;
+}
+.modal-input:focus, .modal-select:focus, .modal-textarea:focus {
+  border-color: rgba(242,103,101,0.5);
+}
+.modal-select { cursor: pointer; }
+.modal-textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+
+/* ── EXTRA COOP CARDS (gerados dinamicamente) ── */
+.extra-coop-wrap { margin-bottom: 0; }
+/* ── ZMP POSTS GRID ── */
+.zmp-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.zmp-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 0; overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: var(--transition); cursor: pointer; text-decoration: none; color: inherit;
+}
+.zmp-card:hover {
+  border-color: rgba(242,103,101,0.6); transform: translateY(-3px);
+  background: rgba(66,71,101,0.65);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.zmp-featured { grid-column: span 2; }
+.zmp-card-top {
+  padding: 18px 20px 14px; flex: 1;
+  display: flex; flex-direction: column; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.zmp-card-meta {
+  display: flex; align-items: center; gap: 10px;
+}
+.zmp-source {
+  font-family: var(--font-title); font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 3px;
+}
+.zmp-linkedin { background: rgba(10,102,194,0.2); color: #5b9bd5; border: 1px solid rgba(10,102,194,0.3); }
+.zmp-instagram { background: rgba(225,48,108,0.15); color: #e1306c; border: 1px solid rgba(225,48,108,0.3); }
+.zmp-site { background: rgba(19,187,179,0.12); color: var(--teal); border: 1px solid rgba(19,187,179,0.25); }
+.zmp-date { font-size: 10px; color: var(--text-muted); margin-left: auto; }
+.zmp-card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.zmp-headline {
+  font-family: var(--font-title); font-size: 15px; font-weight: 700;
+  color: var(--white); line-height: 1.3; letter-spacing: 0.2px;
+}
+.zmp-featured .zmp-headline { font-size: 18px; }
+.zmp-excerpt {
+  font-size: 12px; color: var(--text-muted); line-height: 1.65; flex: 1;
+}
+.zmp-featured .zmp-excerpt { font-size: 13px; }
+.zmp-card-bottom {
+  padding: 10px 20px; display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.zmp-hashtags {
+  font-size: 10px; color: rgba(19,187,179,0.7);
+  font-family: var(--font-body); flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.zmp-arrow {
+  font-size: 14px; color: var(--coral); opacity: 0;
+  transition: opacity 0.2s, transform 0.2s; flex-shrink: 0;
+}
+.zmp-card:hover .zmp-arrow { opacity: 1; transform: translateX(3px); }
+
+@media(max-width:900px){
+  .zmp-posts-grid { grid-template-columns: 1fr; }
+  .zmp-featured { grid-column: span 1; }
+}
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LL50Y7S9V5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LL50Y7S9V5');
+</script>
+
 </head>
 <body>
+
+<!-- ══ TELA DE ACESSO ══ -->
+<div id="telaAcesso" style="
+  position:fixed;inset:0;z-index:99999;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+">
+  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(242,103,101,0.06) 0%,transparent 50%),linear-gradient(225deg,rgba(19,187,179,0.05) 0%,transparent 50%);pointer-events:none;"></div>
+
+  <div style="text-align:center;margin-bottom:40px;position:relative;">
+    <div style="font-family:var(--font-title);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <span style="display:inline-block;width:28px;height:2px;background:var(--coral);"></span>
+      Projeto eCoop · Biotrop × ZMP
+      <span style="display:inline-block;width:28px;height:2px;background:var(--coral);"></span>
+    </div>
+    <div style="font-family:var(--font-title);font-size:clamp(28px,4vw,44px);font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;color:var(--white);line-height:1.1;">
+      Cockpit <span style="color:var(--coral);">Estratégico</span>
+    </div>
+    <div style="font-family:var(--font-sub);font-size:12px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px;">Acesso Restrito · 2026</div>
+  </div>
+
+  <div style="background:rgba(66,71,101,0.35);border:1px solid rgba(242,103,101,0.2);border-radius:10px;padding:36px 40px;width:360px;position:relative;backdrop-filter:blur(10px);">
+    <div style="font-size:28px;text-align:center;margin-bottom:16px;">🔐</div>
+    <div style="font-family:var(--font-title);font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);text-align:center;margin-bottom:6px;">Área Restrita</div>
+    <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:24px;">Insira sua senha de acesso para continuar</div>
+
+    <input id="senhaAcesso" type="password" placeholder="Senha de acesso"
+      onkeydown="if(event.key==='Enter')verificarAcesso()"
+      style="width:100%;background:rgba(48,53,67,0.9);border:1px solid rgba(255,255,255,0.12);
+      border-radius:6px;padding:11px 14px;color:var(--white);font-size:14px;
+      font-family:var(--font-body);margin-bottom:8px;box-sizing:border-box;outline:none;
+      transition:border-color 0.2s;">
+    <div id="erroAcesso" style="color:var(--coral);font-size:11px;min-height:16px;margin-bottom:12px;text-align:center;"></div>
+
+    <button onclick="verificarAcesso()" style="
+      width:100%;padding:12px;
+      background:linear-gradient(135deg,rgba(242,103,101,0.25),rgba(242,103,101,0.15));
+      border:1px solid rgba(242,103,101,0.5);border-radius:6px;
+      color:var(--coral);font-family:var(--font-title);font-size:13px;font-weight:700;
+      letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+      transition:all 0.2s;">
+      Acessar →
+    </button>
+  </div>
+
+  <div style="margin-top:32px;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;">
+    ZMP Consultoria · Confidencial
+  </div>
+</div>
 <div class="stripe-decor"></div>
 
 <!-- FORMAT BAR -->
@@ -754,13 +944,25 @@ footer {
     <div class="header-project-name">Projeto eCoop · Biotrop × ZMP · 2026</div>
   </div>
   <div class="header-right">
-    <button class="save-btn" id="saveBtn" onclick="salvarDados()">
-      <span>💾</span>
-      <span class="save-label">Salvar</span>
-    </button>
-    <div class="status-badge" id="autoSaveIndicator" style="opacity:0;transition:opacity 0.3s;">
-      <span style="font-size:10px;">⟳</span>
-      <span id="autoSaveText">Salvando…</span>
+    <div id="editModeOff" style="display:flex;align-items:center;gap:8px;">
+      <button class="save-btn" onclick="pedirSenha()" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15);color:var(--text-muted);">
+        <span>🔒</span>
+        <span>Modo Edição</span>
+      </button>
+    </div>
+    <div id="editModeOn" style="display:none;align-items:center;gap:8px;">
+      <div class="status-badge" id="autoSaveIndicator" style="opacity:0;transition:opacity 0.3s;">
+        <span style="font-size:10px;">⟳</span>
+        <span id="autoSaveText">Salvando…</span>
+      </div>
+      <button class="save-btn" id="saveBtn" onclick="salvarDados()">
+        <span>💾</span>
+        <span class="save-label">Salvar</span>
+      </button>
+      <button class="save-btn" onclick="sairEdicao()" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15);color:var(--text-muted);">
+        <span>🔓</span>
+        <span>Sair</span>
+      </button>
     </div>
     <div class="status-badge">
       <span class="status-dot"></span>
@@ -768,6 +970,23 @@ footer {
     </div>
   </div>
 </header>
+
+<!-- MODAL SENHA -->
+<div id="modalSenha" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,12,20,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#1e2130;border:1px solid rgba(242,103,101,0.35);border-radius:10px;padding:36px 40px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <div style="font-size:32px;margin-bottom:12px;">🔐</div>
+    <div style="font-family:var(--font-title);font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Modo Edição</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">Digite a senha para habilitar a edição</div>
+    <input id="inputSenha" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')confirmarSenha()"
+      style="width:100%;background:rgba(48,53,67,0.9);border:1px solid rgba(255,255,255,0.15);border-radius:6px;
+      padding:10px 14px;color:var(--white);font-size:14px;font-family:var(--font-body);margin-bottom:8px;box-sizing:border-box;outline:none;">
+    <div id="senhaErro" style="color:var(--coral);font-size:11px;margin-bottom:12px;min-height:16px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="fecharModal()" style="flex:1;padding:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:var(--text-muted);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Cancelar</button>
+      <button onclick="confirmarSenha()" style="flex:1;padding:10px;background:rgba(242,103,101,0.2);border:1px solid rgba(242,103,101,0.5);border-radius:6px;color:var(--coral);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Entrar</button>
+    </div>
+  </div>
+</div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -779,6 +998,10 @@ footer {
   <div class="nav-item" onclick="showPage('page2', this)">
     <span class="nav-icon">📊</span>
     Informações de Mercado
+  </div>
+  <div class="nav-item" onclick="showPage('page5', this)">
+    <span class="nav-icon">📣</span>
+    Atualizações ZMP
   </div>
   <div class="nav-item" onclick="showPage('page3', this)">
     <span class="nav-icon">🤝</span>
@@ -819,6 +1042,14 @@ footer {
         <div class="coop-date" contenteditable="true">Visita Presencial · 13/01/2026</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-camda">
+          <span class="coop-tag tag-ongoing" onclick="toggleTag('camda')">Coop. on going · Potencialização</span>
+          <div class="tag-dropdown" id="tdd-camda">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('camda','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('camda','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('camda','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-camda">
           <span class="badge badge-coral" onclick="toggleDropdown('camda')"><span class="badge-dot"></span>Em Andamento</span>
           <div class="status-dropdown" id="dd-camda">
@@ -873,6 +1104,14 @@ footer {
         <div class="coop-date" contenteditable="true">Visita Presencial · 31/03/2026</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-coplacana">
+          <span class="coop-tag tag-ongoing" onclick="toggleTag('coplacana')">Coop. on going · Potencialização</span>
+          <div class="tag-dropdown" id="tdd-coplacana">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('coplacana','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('coplacana','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('coplacana','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-coplacana">
           <span class="badge badge-coral" onclick="toggleDropdown('coplacana')"><span class="badge-dot"></span>Em Andamento</span>
           <div class="status-dropdown" id="dd-coplacana">
@@ -926,6 +1165,14 @@ footer {
         <div class="coop-date" contenteditable="true">Visita Presencial · 2026</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-cooxupe">
+          <span class="coop-tag tag-ongoing" onclick="toggleTag('cooxupe')">Coop. on going · Potencialização</span>
+          <div class="tag-dropdown" id="tdd-cooxupe">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('cooxupe','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('cooxupe','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('cooxupe','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-cooxupe">
           <span class="badge badge-coral" onclick="toggleDropdown('cooxupe')"><span class="badge-dot"></span>Em Andamento</span>
           <div class="status-dropdown" id="dd-cooxupe">
@@ -979,6 +1226,14 @@ footer {
         <div class="coop-date" contenteditable="true">Destravamento Comercial e Expansão de Acesso · Paraná</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-cvale">
+          <span class="coop-tag tag-ongoing" onclick="toggleTag('cvale')">Coop. on going · Potencialização</span>
+          <div class="tag-dropdown" id="tdd-cvale">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('cvale','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('cvale','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('cvale','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-cvale">
           <span class="badge badge-teal" onclick="toggleDropdown('cvale')">✓ Concluído</span>
           <div class="status-dropdown" id="dd-cvale">
@@ -1023,6 +1278,14 @@ footer {
         <div class="coop-date" contenteditable="true">Visita Agendada com Liderança · 21/07/2026</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-cocari">
+          <span class="coop-tag tag-nova" onclick="toggleTag('cocari')">Coop. Nova · Entrada</span>
+          <div class="tag-dropdown" id="tdd-cocari">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('cocari','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('cocari','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('cocari','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-cocari">
           <span class="badge badge-yellow" onclick="toggleDropdown('cocari')">⏳ Agendado</span>
           <div class="status-dropdown" id="dd-cocari">
@@ -1067,6 +1330,14 @@ footer {
         <div class="coop-date" contenteditable="true">Visita ao BioOracle · Semana de 17/07/2026 · Aguardando Confirmação Final</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-copacol">
+          <span class="coop-tag tag-nova" onclick="toggleTag('copacol')">Coop. Nova · Entrada</span>
+          <div class="tag-dropdown" id="tdd-copacol">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('copacol','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('copacol','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('copacol','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-copacol">
           <span class="badge badge-yellow" onclick="toggleDropdown('copacol')">⏳ Em Confirmação</span>
           <div class="status-dropdown" id="dd-copacol">
@@ -1111,6 +1382,14 @@ footer {
         <div class="coop-date" contenteditable="true">Início de Aproximação · Aguardando Aceite da Liderança</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <div class="tag-selector" id="tag-lar">
+          <span class="coop-tag tag-prosp" onclick="toggleTag('lar')">Coop. em Prospecção</span>
+          <div class="tag-dropdown" id="tdd-lar">
+            <div class="tag-opt" data-tag="nova"    onclick="setTag('lar','nova','tag-nova','Coop. Nova · Entrada')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>
+            <div class="tag-opt" data-tag="ongoing" onclick="setTag('lar','ongoing','tag-ongoing','Coop. on going · Potencialização')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>
+            <div class="tag-opt" data-tag="prosp"   onclick="setTag('lar','prosp','tag-prosp','Coop. em Prospecção')"><span class="tag-dot"></span>Coop. em Prospecção</div>
+          </div>
+        </div>
         <div class="status-selector" id="sel-lar">
           <span class="badge badge-coral" onclick="toggleDropdown('lar')"><span class="badge-dot"></span>Em Prospecção</span>
           <div class="status-dropdown" id="dd-lar">
@@ -1177,14 +1456,106 @@ footer {
     </div>
   </div>
 
+  <!-- ADICIONAR COOPERATIVA -->
+  <div class="page-section">
+    <div id="coopsExtras"></div>
+    <button class="add-coop-btn" onclick="abrirModalCoop()" id="addCoopBtn" style="display:none;">
+      <span style="font-size:18px;">＋</span>
+      Adicionar Cooperativa
+    </button>
+  </div>
+
   <footer>
     <span contenteditable="true">Projeto eCoop · Biotrop × ZMP · 2026</span>
     <span id="lastSaved" style="opacity:0.5;"></span>
   </footer>
 </div>
 
-<!-- ================================================
-     PÁGINA 2 — INFORMAÇÕES DE MERCADO
+<!-- MODAL NOVO POST ZMP -->
+<div id="modalPost" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(10,12,20,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#1e2130;border:1px solid rgba(242,103,101,0.35);border-radius:10px;padding:36px 40px;width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <div style="font-family:var(--font-title);font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;color:var(--white);">Nova Publicação ZMP</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">Adicione um post do LinkedIn, Instagram ou site da ZMP.</div>
+
+    <div class="modal-field-label">Fonte</div>
+    <select id="npFonte" class="modal-select">
+      <option value="linkedin">in LinkedIn — ZMP Consultoria</option>
+      <option value="linkedin-jp">in LinkedIn — JP Zampieri</option>
+      <option value="instagram">📷 Instagram @zmpconsultoria_</option>
+      <option value="site">🌐 Site ZMP</option>
+    </select>
+
+    <div class="modal-field-label">Data</div>
+    <input id="npData" type="text" placeholder="Ex: Jun 2026" class="modal-input">
+
+    <div class="modal-field-label">Tags (marque as que se aplicam)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="mercado" class="np-tag-cb"> Mercado</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="cooperativas" class="np-tag-cb"> Cooperativas</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="gestao" class="np-tag-cb"> Gestão</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="lideranca" class="np-tag-cb"> Liderança</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="treinamento" class="np-tag-cb"> Treinamento</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="vendas" class="np-tag-cb"> Vendas</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);cursor:pointer;"><input type="checkbox" value="estrategia" class="np-tag-cb"> Estratégia</label>
+    </div>
+
+    <div class="modal-field-label">Título / Headline</div>
+    <input id="npTitulo" type="text" placeholder="Título da publicação" class="modal-input">
+
+    <div class="modal-field-label">Resumo / Texto</div>
+    <textarea id="npTexto" class="modal-textarea" placeholder="Resumo do conteúdo da publicação…" rows="4"></textarea>
+
+    <div class="modal-field-label">Hashtags</div>
+    <input id="npHashtags" type="text" placeholder="#agronegocio #zmpconsultoria" class="modal-input">
+
+    <div class="modal-field-label">Link (URL)</div>
+    <input id="npLink" type="text" placeholder="https://linkedin.com/..." class="modal-input">
+
+    <div style="display:flex;gap:10px;margin-top:24px;">
+      <button onclick="fecharModalPost()" style="flex:1;padding:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:var(--text-muted);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Cancelar</button>
+      <button onclick="criarPost()" style="flex:2;padding:11px;background:rgba(242,103,101,0.2);border:1px solid rgba(242,103,101,0.5);border-radius:6px;color:var(--coral);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Adicionar Post</button>
+    </div>
+  </div>
+</div>
+<div id="modalCoop" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(10,12,20,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#1e2130;border:1px solid rgba(242,103,101,0.35);border-radius:10px;padding:36px 40px;width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <div style="font-family:var(--font-title);font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;color:var(--white);">Nova Cooperativa</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">Preencha os dados iniciais. Tudo poderá ser editado depois.</div>
+
+    <div class="modal-field-label">Nome da Cooperativa</div>
+    <input id="ncNome" type="text" placeholder="Ex: COCAMAR" class="modal-input">
+
+    <div class="modal-field-label">Data / Contexto</div>
+    <input id="ncData" type="text" placeholder="Ex: Visita Presencial · Jul 2026" class="modal-input">
+
+    <div class="modal-field-label">Tag</div>
+    <select id="ncTag" class="modal-select">
+      <option value="nova|tag-nova|Coop. Nova · Entrada">🟣 Coop. Nova · Entrada</option>
+      <option value="ongoing|tag-ongoing|Coop. on going · Potencialização">🟢 Coop. on going · Potencialização</option>
+      <option value="prosp|tag-prosp|Coop. em Prospecção">🟡 Coop. em Prospecção</option>
+    </select>
+
+    <div class="modal-field-label">Status</div>
+    <select id="ncStatus" class="modal-select">
+      <option value="em-andamento|badge-coral|Em Andamento|true">🔴 Em Andamento</option>
+      <option value="agendado|badge-yellow|⏳ Agendado|false">🟡 Agendado</option>
+      <option value="em-confirmacao|badge-yellow|⏳ Em Confirmação|false">🟡 Em Confirmação</option>
+      <option value="em-prospeccao|badge-coral|Em Prospecção|true">🔴 Em Prospecção</option>
+      <option value="concluido|badge-teal|✓ Concluído|false">🟢 Concluído</option>
+    </select>
+
+    <div class="modal-field-label" style="margin-top:20px;">Status da Relação</div>
+    <textarea id="ncRelacao" class="modal-textarea" placeholder="Descreva o status atual da relação com a cooperativa…" rows="3"></textarea>
+
+    <div class="modal-field-label">Próximos Passos</div>
+    <textarea id="ncPassos" class="modal-textarea" placeholder="Liste os próximos passos…" rows="3"></textarea>
+
+    <div style="display:flex;gap:10px;margin-top:24px;">
+      <button onclick="fecharModalCoop()" style="flex:1;padding:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:var(--text-muted);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Cancelar</button>
+      <button onclick="criarCoop()" style="flex:2;padding:11px;background:rgba(242,103,101,0.2);border:1px solid rgba(242,103,101,0.5);border-radius:6px;color:var(--coral);font-family:var(--font-sub);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Criar Cooperativa</button>
+    </div>
+  </div>
+</div>
      ================================================ -->
 <div class="page" id="page2">
   <section class="hero">
@@ -1634,6 +2005,272 @@ footer {
 
 </div>
 
+
+<!-- ================================================
+     PÁGINA 5 — ATUALIZAÇÕES ZMP
+     ================================================ -->
+<div class="page" id="page5">
+
+  <section class="hero">
+    <div class="hero-label" contenteditable="true">Redes Sociais & Conteúdo</div>
+    <h1 class="hero-title" contenteditable="true">Atualizações <span>ZMP</span></h1>
+    <div class="hero-subtitle" contenteditable="true">LinkedIn · Instagram · Site · Publicações Recentes</div>
+    <p class="hero-description" contenteditable="true">
+      Acompanhe o que a ZMP Consultoria está publicando — conteúdos sobre mercado, cooperativas, liderança, gestão e estratégia no agronegócio.
+    </p>
+  </section>
+
+  <!-- FILTROS -->
+  <div class="page-section" style="margin-bottom:0;">
+    <div class="news-filters">
+      <span class="filter-label">Filtrar:</span>
+      <span class="filter-pill active" onclick="filterZMP('all',this)">Todas</span>
+      <span class="filter-pill" onclick="filterZMP('mercado',this)">Mercado</span>
+      <span class="filter-pill" onclick="filterZMP('cooperativas',this)">Cooperativas</span>
+      <span class="filter-pill" onclick="filterZMP('gestao',this)">Gestão</span>
+      <span class="filter-pill" onclick="filterZMP('lideranca',this)">Liderança</span>
+      <span class="filter-pill" onclick="filterZMP('treinamento',this)">Treinamento</span>
+      <span class="filter-pill" onclick="filterZMP('vendas',this)">Vendas</span>
+      <span class="filter-pill" onclick="filterZMP('estrategia',this)">Estratégia</span>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="page-section">
+    <div class="zmp-posts-grid" id="zmpGrid">
+
+      <!-- POST 1 — FEATURED -->
+      <a class="zmp-card zmp-featured" href="https://www.linkedin.com/in/jo%C3%A3o-paulo-kriigner-zampieri-b6520716/" target="_blank" data-zcats="mercado estrategia">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-linkedin">in LinkedIn · JP Zampieri</span>
+            <span class="zmp-date">Jan 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+            <span class="news-tag tag-mercado">Estratégia</span>
+          </div>
+          <div class="zmp-headline">"O que esperar do agro em 2026?" — ZMP rodou o Brasil e traz suas leituras</div>
+          <div class="zmp-excerpt">Depois de rodar bons quilômetros e encontrar grandes parceiros e clientes, JP Zampieri compartilhou: "Temos a certeza de que o agro vive um novo momento." A ZMP começou 2026 a todo vapor — convenções, visitas e reuniões por todo o Brasil, lendo o mercado de perto para antecipar oportunidades.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#agronegocio #2026 #estrategia #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 2 -->
+      <a class="zmp-card" href="https://www.linkedin.com/in/jo%C3%A3o-paulo-kriigner-zampieri-b6520716/" target="_blank" data-zcats="cooperativas mercado">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-linkedin">in LinkedIn · JP Zampieri</span>
+            <span class="zmp-date">Jan 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-cooperativas">Cooperativas</span>
+            <span class="news-tag tag-mercado">Mercado</span>
+          </div>
+          <div class="zmp-headline">COAMO amplia atuação: 4 novas unidades adquiridas em jan/2026</div>
+          <div class="zmp-excerpt">JP Zampieri destacou: no dia 27/01/2026, a COAMO anunciou a aquisição de quatro novas unidades nos municípios de Assaí e região — movimento que reforça a expansão agressiva das grandes cooperativas para além de seus territórios tradicionais.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#coamo #cooperativas #expansão #agronegocio</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 3 -->
+      <a class="zmp-card" href="https://br.linkedin.com/company/zmp-consultoria" target="_blank" data-zcats="lideranca gestao treinamento">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-linkedin">in LinkedIn</span>
+            <span class="zmp-date">2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-regulatorio" style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);">Liderança</span>
+            <span class="news-tag tag-regulatorio" style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);">Gestão</span>
+          </div>
+          <div class="zmp-headline">Fórum ZMP: Liderança Comercial no centro do debate do agro</div>
+          <div class="zmp-excerpt">A segunda edição do Fórum ZMP Consultoria reuniu líderes do agronegócio com foco em Liderança Comercial — discutindo como times comerciais precisam se reinventar num cenário de margens comprimidas, maior complexidade de portfólio e novos canais de acesso ao produtor.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#liderança #comercial #forumzmp #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 4 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DZnDg8dhnSP/" target="_blank" data-zcats="gestao lideranca vendas">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Jun 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-regulatorio" style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);">Gestão</span>
+            <span class="news-tag tag-biologicos" style="background:rgba(74,144,217,0.15);color:#4a90d9;border-color:rgba(74,144,217,0.3);">Vendas</span>
+          </div>
+          <div class="zmp-headline">Experiência do cliente: o diferencial que o agro precisa dominar</div>
+          <div class="zmp-excerpt">A ZMP trouxe reflexões sobre como a experiência do cliente se tornou um dos grandes diferenciais competitivos no agronegócio — e como empresas e cooperativas precisam estruturar essa entrega de valor de forma consistente.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#experiênciadocliente #agronegocio #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 5 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DZVB_EohH_t/" target="_blank" data-zcats="mercado estrategia">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Jun 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+            <span class="news-tag tag-mercado">Estratégia</span>
+          </div>
+          <div class="zmp-headline">Visita à Ásia: o que o mercado global de agro tem a ensinar ao Brasil</div>
+          <div class="zmp-excerpt">A ZMP registrou a visita à Ásia com olhar estratégico sobre o mercado agrícola global — tendências, inovações e o que o agro brasileiro pode aprender com os movimentos internacionais para fortalecer sua posição competitiva.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#ásia #mercado #agronegocio #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 6 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/p/DZxL0KUFpjg/" target="_blank" data-zcats="lideranca gestao">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Jun 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-regulatorio" style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);">Liderança</span>
+            <span class="news-tag tag-regulatorio" style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);">Evento ZMP</span>
+          </div>
+          <div class="zmp-headline">Paradoxos da Liderança — Evento ZMP em Sinop: líderes do agro se reúnem</div>
+          <div class="zmp-excerpt">A ZMP irá reunir líderes do agronegócio em Sinop para debater os paradoxos da liderança no setor — um evento que coloca em pauta as contradições e desafios reais de quem lidera times e negócios num mercado de alta complexidade e velocidade. Em breve!</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#liderança #eventozmp #sinop #agronegocio</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 7 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DZIMe-pAjID/" target="_blank" data-zcats="mercado estrategia">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Jun 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+            <span class="news-tag tag-mercado">Estratégia</span>
+          </div>
+          <div class="zmp-headline">Visita à Ásia: leituras de mercado e conexões estratégicas</div>
+          <div class="zmp-excerpt">Mais registros da visita da ZMP à Ásia — explorando mercados, fazendo conexões estratégicas e trazendo perspectivas globais para o agronegócio brasileiro. Uma imersão que amplia o repertório para pensar o futuro do setor.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#ásia #mercadoglobal #estrategia #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 8 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DZDAvNkAAex/" target="_blank" data-zcats="mercado">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Jun 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+          </div>
+          <div class="zmp-headline">Agro em movimento: leitura de mercado da ZMP</div>
+          <div class="zmp-excerpt">A ZMP compartilhou sua leitura sobre os principais movimentos do agronegócio — com análise de cenário, oportunidades e pontos de atenção para empresas e cooperativas que querem se posicionar estrategicamente no mercado.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#agro #mercado #zmpconsultoria #agronegocio</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 9 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DYklQc7uPuU/" target="_blank" data-zcats="mercado estrategia">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Mai 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+            <span class="news-tag tag-mercado">Estratégia</span>
+          </div>
+          <div class="zmp-headline">Visita à Ásia: o agro visto de fora — perspectivas para o Brasil</div>
+          <div class="zmp-excerpt">Terceiro registro da imersão da ZMP na Ásia — o olhar de fora do Brasil sobre o agronegócio nacional revela oportunidades que, de dentro, nem sempre são visíveis. A ZMP traz essas percepções para provocar reflexões estratégicas no setor.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#ásia #agrobrasil #mercado #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 10 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/p/DYVPwY2FtlJ/" target="_blank" data-zcats="cooperativas mercado">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Mai 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-cooperativas">Cooperativas</span>
+            <span class="news-tag tag-mercado">Mercado</span>
+          </div>
+          <div class="zmp-headline">Cooperativas do Norte do Paraná: potencial e oportunidades de mercado</div>
+          <div class="zmp-excerpt">A ZMP registrou visitas e interações com cooperativas da região Norte do Paraná — mapeando o potencial da região, os movimentos do mercado local e as oportunidades estratégicas para expansão e fortalecimento do cooperativismo nesse território.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#cooperativas #paranà #mercado #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- POST 11 — Instagram -->
+      <a class="zmp-card" href="https://www.instagram.com/reel/DX9clqOATsO/" target="_blank" data-zcats="mercado estrategia">
+        <div class="zmp-card-top">
+          <div class="zmp-card-meta">
+            <span class="zmp-source zmp-instagram">📷 Instagram</span>
+            <span class="zmp-date">Mai 2026</span>
+          </div>
+          <div class="zmp-card-tags">
+            <span class="news-tag tag-mercado">Mercado</span>
+            <span class="news-tag tag-mercado">Estratégia</span>
+          </div>
+          <div class="zmp-headline">Desafios do agro em 2026: o que está em jogo para o setor</div>
+          <div class="zmp-excerpt">A ZMP trouxe sua leitura sobre os principais desafios que o agronegócio enfrenta em 2026 — pressão de margens, mudanças nos canais de distribuição, novos perfis de produtor e a crescente demanda por soluções mais inteligentes e integradas.</div>
+        </div>
+        <div class="zmp-card-bottom">
+          <span class="zmp-hashtags">#desafios #agro2026 #mercado #zmpconsultoria</span>
+          <span class="zmp-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+    <div id="zmpPostsExtras" style="margin-top:16px;"></div>
+    <button class="add-coop-btn" id="addPostBtn" onclick="abrirModalPost()" style="display:none;margin-top:8px;">
+      <span style="font-size:18px;">＋</span>
+      Adicionar Publicação
+    </button>
+  </div>
+
+  <footer>
+    <span contenteditable="true">Atualizações ZMP · Biotrop × ZMP · 2026 — Fontes: LinkedIn ZMP Consultoria, Instagram @zmpconsultoria_, Site zmp.agr.br</span>
+  </footer>
+</div>
+
 </div><!-- /.content -->
 </main>
 
@@ -1644,6 +2281,9 @@ function showPage(pageId, navEl) {
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   document.getElementById(pageId).classList.add('active');
   navEl.classList.add('active');
+  // Rastreia navegação
+  var nomes = { page1:'Ações Cooperativas', page2:'Informações de Mercado', page3:'Informações Cooperativas', page4:'Bioconecta 2026', page5:'Atualizações ZMP' };
+  try { gtag('event', 'page_view', { page_title: nomes[pageId] || pageId, page_location: window.location.href + '#' + pageId }); } catch(e){}
 }
 
 // ── FORMAT BAR ──
@@ -1727,31 +2367,146 @@ function setStatus(id, statusKey, label, badgeClass, hasDot) {
   sel.dataset.statusKey = statusKey;
 }
 
-// Close dropdowns when clicking outside
+// ── TAG SELECTOR ──
+function toggleTag(id) {
+  var dd = document.getElementById('tdd-' + id);
+  var isOpen = dd.classList.contains('open');
+  document.querySelectorAll('.tag-dropdown').forEach(function(d){ d.classList.remove('open'); });
+  if (!isOpen) dd.classList.add('open');
+}
+
+function setTag(id, tagKey, tagCls, label) {
+  var sel = document.getElementById('tag-' + id);
+  var tag = sel.querySelector('.coop-tag');
+  tag.classList.remove('tag-nova','tag-ongoing','tag-prosp');
+  tag.classList.add(tagCls);
+  // update text (keep the ::after arrow via CSS)
+  tag.textContent = label;
+  document.getElementById('tdd-' + id).classList.remove('open');
+  sel.dataset.tagKey = tagKey;
+  if (typeof salvarSilencioso === 'function') salvarSilencioso();
+}
+
+// Close tag dropdowns when clicking outside
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.status-selector')) {
-    document.querySelectorAll('.status-dropdown').forEach(function(d){ d.classList.remove('open'); });
+  if (!e.target.closest('.tag-selector') && !e.target.closest('.status-selector')) {
+    document.querySelectorAll('.tag-dropdown,.status-dropdown').forEach(function(d){ d.classList.remove('open'); });
   }
 });
 
-// ── SALVAR ──
+// ══════════════════════════════════════════════
+// SISTEMA DE ACESSO POR SENHA
+// ══════════════════════════════════════════════
+var ACESSOS = {
+  'ecoop2026': 'Biotrop',
+  'zmp2026':   'ZMP',
+  '04012018':  'Admin'
+};
+
+function verificarAcesso() {
+  var senha = document.getElementById('senhaAcesso').value.trim();
+  var perfil = ACESSOS[senha];
+
+  if (!perfil) {
+    document.getElementById('erroAcesso').textContent = 'Senha incorreta. Tente novamente.';
+    document.getElementById('senhaAcesso').value = '';
+    document.getElementById('senhaAcesso').focus();
+    try { gtag('event', 'acesso_negado', { event_category: 'Segurança', event_label: 'Senha inválida' }); } catch(e){}
+    return;
+  }
+
+  try {
+    gtag('event', 'login', { event_category: 'Acesso', event_label: 'Perfil: ' + perfil, method: perfil });
+    gtag('set', 'user_properties', { perfil_acesso: perfil });
+  } catch(e){}
+
+  // Esconde tela de acesso
+  var tela = document.getElementById('telaAcesso');
+  tela.style.opacity = '0';
+  tela.style.transition = 'opacity 0.4s ease';
+  setTimeout(function(){ tela.style.display = 'none'; }, 400);
+
+  // Salva sessão
+  sessionStorage.setItem('biotrop_acesso', perfil);
+
+  // Se for Admin, já entra em modo edição
+  if (perfil === 'Admin') {
+    setTimeout(function(){ ativarEdicao(); }, 500);
+  }
+}
+
+// Verifica se já tem sessão ativa (evita pedir senha de novo ao recarregar)
+(function() {
+  var sessao = sessionStorage.getItem('biotrop_acesso');
+  if (sessao) {
+    document.getElementById('telaAcesso').style.display = 'none';
+    if (sessao === 'Admin') {
+      window.addEventListener('load', function(){ ativarEdicao(); });
+    }
+  }
+})();
+
+// ══════════════════════════════════════════════
+// CONFIGURAÇÃO JSONBIN
+// ══════════════════════════════════════════════
+var JSONBIN_MASTER_KEY = '$2a$10$17jeDTdPyqXWgVmVsItUJu.olUXB0Ycwv9l.ZM0DB5uo8qtD3GS6e';
+var JSONBIN_BIN_ID     = '6a399452da38895dfeeda973';
+var EDIT_PASSWORD      = '04012018';
+var editMode           = false;
+
+// ── CONTROLE DE EDIÇÃO ──
+function pedirSenha() {
+  document.getElementById('modalSenha').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('inputSenha').focus(); }, 100);
+}
+function fecharModal() {
+  document.getElementById('modalSenha').style.display = 'none';
+  document.getElementById('inputSenha').value = '';
+  document.getElementById('senhaErro').textContent = '';
+}
+function confirmarSenha() {
+  var v = document.getElementById('inputSenha').value;
+  if (v === EDIT_PASSWORD) {
+    fecharModal();
+    ativarEdicao();
+  } else {
+    document.getElementById('senhaErro').textContent = 'Senha incorreta. Tente novamente.';
+    document.getElementById('inputSenha').value = '';
+    document.getElementById('inputSenha').focus();
+  }
+}
+function ativarEdicao() {
+  editMode = true;
+  document.getElementById('editModeOff').style.display = 'none';
+  document.getElementById('editModeOn').style.display  = 'flex';
+  // habilita contenteditable
+  document.querySelectorAll('[contenteditable]').forEach(function(el){
+    el.setAttribute('contenteditable', 'true');
+  });
+}
+function sairEdicao() {
+  editMode = false;
+  document.getElementById('editModeOn').style.display  = 'none';
+  document.getElementById('editModeOff').style.display = 'flex';
+  // desabilita contenteditable
+  document.querySelectorAll('[contenteditable]').forEach(function(el){
+    el.setAttribute('contenteditable', 'false');
+  });
+}
+
+// ── IDs ESTÁVEIS ──
 function getEditableIndex() {
-  // Give each editable a stable data-ce-id based on DOM order
-  var els = document.querySelectorAll('[contenteditable="true"]');
+  var els = document.querySelectorAll('[contenteditable]');
   els.forEach(function(el, i) {
     if (!el.dataset.ceId) el.dataset.ceId = 'ce_' + i;
   });
   return els;
 }
 
-// ── SAVE (silencioso para auto-save, visual para manual) ──
-var _autoSaveTimer = null;
-
-function salvarSilencioso() {
-  // Salva sem alterar o botão — usado pelo auto-save
-  var state = { editables: {}, statuses: {} };
-  var els = getEditableIndex();
-  els.forEach(function(el) {
+// ── COLETAR ESTADO ──
+function coletarEstado() {
+  var state = { editables: {}, statuses: {}, tags: {} };
+  getEditableIndex().forEach(function(el) {
     state.editables[el.dataset.ceId] = el.innerHTML;
   });
   document.querySelectorAll('.status-selector').forEach(function(sel) {
@@ -1761,108 +2516,193 @@ function salvarSilencioso() {
     var hasDot = !!badge.querySelector('.badge-dot');
     var label = '';
     badge.childNodes.forEach(function(n){ if(n.nodeType===3) label += n.textContent; });
-    label = label.trim();
-    state.statuses[id] = { badgeClass: badgeClass, hasDot: hasDot, label: label, statusKey: sel.dataset.statusKey || '' };
+    state.statuses[id] = { badgeClass: badgeClass, hasDot: hasDot, label: label.trim(), statusKey: sel.dataset.statusKey || '' };
   });
-  try {
-    localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state));
-    // atualiza só o timestamp discreto no footer
+  document.querySelectorAll('.tag-selector').forEach(function(sel) {
+    var id  = sel.id.replace('tag-','');
+    var tag = sel.querySelector('.coop-tag');
+    var tagCls = Array.from(tag.classList).find(function(c){ return c.startsWith('tag-') && c !== 'tag-selector' && c !== 'coop-tag'; });
+    state.tags[id] = { tagCls: tagCls, label: tag.textContent.trim(), tagKey: sel.dataset.tagKey || '' };
+  });
+  return state;
+}
+
+// ── APLICAR ESTADO ──
+function aplicarEstado(state) {
+  if (state.editables) {
+    var els = document.querySelectorAll('[contenteditable]');
+    els.forEach(function(el, i) {
+      var ceId = el.dataset.ceId || ('ce_' + i);
+      el.dataset.ceId = ceId;
+      if (state.editables[ceId] !== undefined) el.innerHTML = state.editables[ceId];
+    });
+  }
+  if (state.statuses) {
+    Object.keys(state.statuses).forEach(function(id) {
+      var s   = state.statuses[id];
+      var sel = document.getElementById('sel-' + id);
+      if (!sel) return;
+      var badge = sel.querySelector('.badge');
+      badge.classList.remove('badge-coral','badge-teal','badge-yellow','badge-muted');
+      badge.classList.add(s.badgeClass);
+      var dot = badge.querySelector('.badge-dot');
+      if (s.hasDot && !dot) { var nd = document.createElement('span'); nd.className='badge-dot'; badge.insertBefore(nd, badge.firstChild); }
+      else if (!s.hasDot && dot) { dot.remove(); }
+      badge.childNodes.forEach(function(n){ if(n.nodeType===3) n.remove(); });
+      badge.appendChild(document.createTextNode(s.label));
+      var dotEl = badge.querySelector('.badge-dot');
+      if (dotEl) badge.insertBefore(dotEl, badge.firstChild);
+      sel.dataset.statusKey = s.statusKey || '';
+    });
+  }
+  if (state.tags) {
+    Object.keys(state.tags).forEach(function(id) {
+      var t   = state.tags[id];
+      var sel = document.getElementById('tag-' + id);
+      if (!sel) return;
+      var tag = sel.querySelector('.coop-tag');
+      tag.classList.remove('tag-nova','tag-ongoing','tag-prosp');
+      if (t.tagCls) tag.classList.add(t.tagCls);
+      tag.textContent = t.label || tag.textContent;
+      sel.dataset.tagKey = t.tagKey || '';
+    });
+  }
+}
+
+// ── JSONBIN: CRIAR BIN (1ª vez) ──
+function criarBin(state) {
+  return fetch('https://api.jsonbin.io/v3/b', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JSONBIN_MASTER_KEY,
+      'X-Bin-Name':   'biotrop-cockpit',
+      'X-Private':    'true'
+    },
+    body: JSON.stringify(state)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    JSONBIN_BIN_ID = d.metadata.id;
+    localStorage.setItem('biotrop_bin_id', JSONBIN_BIN_ID);
+    return d;
+  });
+}
+
+// ── JSONBIN: SALVAR ──
+function salvarNuvem(state) {
+  if (!JSONBIN_BIN_ID) return criarBin(state);
+  return fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JSONBIN_MASTER_KEY
+    },
+    body: JSON.stringify(state)
+  }).then(function(r){ return r.json(); });
+}
+
+// ── JSONBIN: CARREGAR ──
+function carregarNuvem() {
+  if (!JSONBIN_BIN_ID) return Promise.resolve(null);
+  return fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID + '/latest', {
+    headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){ return d.record || null; })
+  .catch(function(){ return null; });
+}
+
+// ── AUTO-SAVE TIMER ──
+var _autoSaveTimer = null;
+
+function salvarSilencioso() {
+  if (!editMode) return;
+  var state = coletarEstado();
+  // localStorage imediato
+  try { localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state)); } catch(e){}
+  // nuvem
+  salvarNuvem(state).then(function(){
     var now = new Date();
-    var t = now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-    var ls = document.getElementById('lastSaved');
+    var t   = now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    var ls  = document.getElementById('lastSaved');
     if (ls) ls.textContent = 'Salvo às ' + t;
-  } catch(e) {}
+  }).catch(function(){});
 }
 
 function salvarDados() {
-  // Versão manual — salva e mostra feedback no botão
-  salvarSilencioso();
-  var btn = document.getElementById('saveBtn');
-  if (!btn) return;
-  btn.querySelector('.save-label').textContent = 'Salvo ✓';
-  btn.style.borderColor = 'var(--teal)';
-  setTimeout(function(){
-    btn.querySelector('.save-label').textContent = 'Salvar';
-    btn.style.borderColor = '';
-  }, 2000);
+  if (!editMode) return;
+  var state = coletarEstado();
+  var btn   = document.getElementById('saveBtn');
+  // localStorage
+  try { localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state)); } catch(e){}
+  // nuvem com feedback
+  if (btn) { btn.querySelector('.save-label').textContent = 'Salvando…'; }
+  salvarNuvem(state).then(function(){
+    var now = new Date();
+    var t   = now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    var ls  = document.getElementById('lastSaved');
+    if (ls) ls.textContent = 'Salvo às ' + t;
+    if (btn) {
+      btn.querySelector('.save-label').textContent = 'Salvo ✓';
+      btn.style.borderColor = 'var(--teal)';
+      setTimeout(function(){ btn.querySelector('.save-label').textContent = 'Salvar'; btn.style.borderColor=''; }, 2000);
+    }
+  }).catch(function(){
+    if (btn) { btn.querySelector('.save-label').textContent = 'Erro ✕'; setTimeout(function(){ btn.querySelector('.save-label').textContent = 'Salvar'; }, 2000); }
+  });
 }
 
 function carregarDados() {
-  try {
-    var raw = localStorage.getItem('biotrop_cockpit_v3');
-    if (!raw) return;
-    var state = JSON.parse(raw);
-
-    // assign stable ids then load editables
-    if (state.editables) {
-      var els = document.querySelectorAll('[contenteditable="true"]');
-      els.forEach(function(el, i) {
-        var ceId = el.dataset.ceId || ('ce_' + i);
-        el.dataset.ceId = ceId;
-        if (state.editables[ceId] !== undefined) {
-          el.innerHTML = state.editables[ceId];
-        }
-      });
+  getEditableIndex();
+  // tenta nuvem primeiro, cai no localStorage
+  carregarNuvem().then(function(state){
+    if (state) {
+      aplicarEstado(state);
+      // sincroniza localStorage
+      try { localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state)); } catch(e){}
+    } else {
+      // fallback localStorage
+      try {
+        var raw = localStorage.getItem('biotrop_cockpit_v3');
+        if (raw) aplicarEstado(JSON.parse(raw));
+      } catch(e){}
     }
-
-    // statuses
-    if (state.statuses) {
-      Object.keys(state.statuses).forEach(function(id) {
-        var s = state.statuses[id];
-        var sel = document.getElementById('sel-' + id);
-        if (!sel) return;
-        var badge = sel.querySelector('.badge');
-        badge.classList.remove('badge-coral','badge-teal','badge-yellow','badge-muted');
-        badge.classList.add(s.badgeClass);
-        var dot = badge.querySelector('.badge-dot');
-        if (s.hasDot && !dot) {
-          var nd = document.createElement('span'); nd.className = 'badge-dot';
-          badge.insertBefore(nd, badge.firstChild);
-        } else if (!s.hasDot && dot) { dot.remove(); }
-        badge.childNodes.forEach(function(n){ if(n.nodeType===3) n.remove(); });
-        badge.appendChild(document.createTextNode(s.label));
-        var dotEl = badge.querySelector('.badge-dot');
-        if (dotEl) badge.insertBefore(dotEl, badge.firstChild);
-        sel.dataset.statusKey = s.statusKey || '';
-      });
-    }
-  } catch(e) { console.warn('Erro ao carregar dados:', e); }
+  }).catch(function(){
+    try {
+      var raw = localStorage.getItem('biotrop_cockpit_v3');
+      if (raw) aplicarEstado(JSON.parse(raw));
+    } catch(e){}
+  });
 }
 
-// ── AUTO-SAVE: dispara 1,5s depois de qualquer edição ──
+// ── AUTO-SAVE: 1,5s após edição ──
 document.addEventListener('input', function(e) {
-  if (!e.target.isContentEditable) return;
+  if (!editMode || !e.target.isContentEditable) return;
   clearTimeout(_autoSaveTimer);
-  // Show "Salvando…" indicator
   var ind = document.getElementById('autoSaveIndicator');
   var txt = document.getElementById('autoSaveText');
   if (ind) { txt.textContent = 'Salvando…'; ind.style.opacity = '1'; }
   _autoSaveTimer = setTimeout(function() {
     salvarSilencioso();
-    if (ind) {
-      txt.textContent = 'Salvo ✓';
-      setTimeout(function(){ ind.style.opacity = '0'; }, 1500);
-    }
+    if (ind) { txt.textContent = 'Salvo ✓'; setTimeout(function(){ ind.style.opacity='0'; }, 1500); }
   }, 1500);
 });
 
-// ── Salva também ao mudar status ──
+// ── Salva ao mudar status ──
 var _origSetStatus = setStatus;
 setStatus = function(id, statusKey, label, badgeClass, hasDot) {
   _origSetStatus(id, statusKey, label, badgeClass, hasDot);
-  salvarSilencioso();
+  if (editMode) salvarSilencioso();
 };
 
 // ── Ctrl+S / Cmd+S ──
 document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    salvarDados();
-  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); salvarDados(); }
 });
 
 window.addEventListener('load', function() {
-  // handled below after all functions are defined
+  // handled below
 });
 // ── BIOCONECTA FILE MANAGER ──
 var bioFiles = []; // { id, name, type, size, dataUrl, uploadedAt }
@@ -2039,7 +2879,19 @@ function wireCompactZone(zoneId, inputId, processor) {
 
 // ── FINAL LOAD ──
 window.addEventListener('load', function() {
+  // Restaura Bin ID salvo
+  var savedBinId = localStorage.getItem('biotrop_bin_id');
+  if (savedBinId) JSONBIN_BIN_ID = savedBinId;
+
+  // Começa em modo somente leitura — desabilita edição
+  document.querySelectorAll('[contenteditable]').forEach(function(el){
+    el.setAttribute('contenteditable', 'false');
+  });
+
+  // Atribui IDs estáveis
   getEditableIndex();
+
+  // Carrega dados da nuvem (ou localStorage como fallback)
   carregarDados();
 });
 // ── VISUAL GALLERY ──
@@ -2133,6 +2985,319 @@ document.addEventListener('keydown', function(e) {
 });
 
 
+// ── ZMP FILTER ──
+function filterZMP(cat, pillEl) {
+  document.querySelectorAll('#page5 .filter-pill').forEach(function(p){ p.classList.remove('active'); });
+  pillEl.classList.add('active');
+  var cards = document.querySelectorAll('#zmpGrid .zmp-card');
+  cards.forEach(function(card) {
+    card.style.display = (cat === 'all' || (card.dataset.zcats || '').split(' ').indexOf(cat) !== -1) ? '' : 'none';
+  });
+  var visible = Array.from(cards).filter(function(c){ return c.style.display !== 'none'; });
+  cards.forEach(function(c){ c.classList.remove('zmp-featured'); });
+  if (visible.length > 0) visible[0].classList.add('zmp-featured');
+}
+var extraCoops = []; // { id, nome, data, tagKey, tagCls, tagLabel, statusKey, badgeClass, statusLabel, hasDot, relacao, passos }
+
+function abrirModalCoop() {
+  if (!editMode) { alert('Ative o Modo Edição para adicionar cooperativas.'); return; }
+  document.getElementById('modalCoop').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('ncNome').focus(); }, 100);
+}
+function fecharModalCoop() {
+  document.getElementById('modalCoop').style.display = 'none';
+  ['ncNome','ncData','ncRelacao','ncPassos'].forEach(function(id){ document.getElementById(id).value = ''; });
+}
+
+function criarCoop() {
+  var nome   = document.getElementById('ncNome').value.trim();
+  if (!nome) { alert('Informe o nome da cooperativa.'); return; }
+  var data   = document.getElementById('ncData').value.trim() || 'Data a definir';
+  var tagVal = document.getElementById('ncTag').value.split('|');
+  var stVal  = document.getElementById('ncStatus').value.split('|');
+  var relacao = document.getElementById('ncRelacao').value.trim() || 'Clique para editar…';
+  var passos  = document.getElementById('ncPassos').value.trim()  || 'Clique para editar…';
+
+  var coop = {
+    id:          'coop_' + Date.now(),
+    nome:        nome,
+    data:        data,
+    tagKey:      tagVal[0], tagCls: tagVal[1], tagLabel: tagVal[2],
+    statusKey:   stVal[0],  badgeClass: stVal[1], statusLabel: stVal[2], hasDot: stVal[3]==='true',
+    relacao:     relacao,
+    passos:      passos
+  };
+  extraCoops.push(coop);
+  renderExtraCoop(coop);
+  fecharModalCoop();
+  getEditableIndex();
+  salvarSilencioso();
+}
+
+function renderExtraCoop(coop) {
+  var container = document.getElementById('coopsExtras');
+
+  var dot = coop.hasDot ? '<span class="badge-dot"></span>' : '';
+  var wrap = document.createElement('div');
+  wrap.className = 'extra-coop-wrap';
+  wrap.dataset.coopId = coop.id;
+
+  wrap.innerHTML =
+    '<div class="page-section" style="margin-bottom:0;">' +
+      '<div class="section-heading" contenteditable="true">' + coop.nome + '</div>' +
+      '<div class="coop-header">' +
+        '<div>' +
+          '<div class="coop-name" contenteditable="true">' + coop.nome + '</div>' +
+          '<div class="coop-date" contenteditable="true">' + coop.data + '</div>' +
+        '</div>' +
+        '<div style="margin-left:auto;display:flex;gap:8px;align-items:center;">' +
+          '<div class="tag-selector" id="tag-' + coop.id + '">' +
+            '<span class="coop-tag ' + coop.tagCls + '" onclick="toggleTag(\'' + coop.id + '\')">' + coop.tagLabel + '</span>' +
+            '<div class="tag-dropdown" id="tdd-' + coop.id + '">' +
+              '<div class="tag-opt" data-tag="nova"    onclick="setTag(\'' + coop.id + '\',\'nova\',\'tag-nova\',\'Coop. Nova · Entrada\')"><span class="tag-dot"></span>Coop. Nova · Entrada</div>' +
+              '<div class="tag-opt" data-tag="ongoing" onclick="setTag(\'' + coop.id + '\',\'ongoing\',\'tag-ongoing\',\'Coop. on going · Potencialização\')"><span class="tag-dot"></span>Coop. on going · Potencialização</div>' +
+              '<div class="tag-opt" data-tag="prosp"   onclick="setTag(\'' + coop.id + '\',\'prosp\',\'tag-prosp\',\'Coop. em Prospecção\')"><span class="tag-dot"></span>Coop. em Prospecção</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="status-selector" id="sel-' + coop.id + '">' +
+            '<span class="badge ' + coop.badgeClass + '" onclick="toggleDropdown(\'' + coop.id + '\')">' + dot + coop.statusLabel + '</span>' +
+            '<div class="status-dropdown" id="dd-' + coop.id + '">' +
+              '<div class="status-opt" data-status="em-andamento"   onclick="setStatus(\'' + coop.id + '\',\'em-andamento\',\'Em Andamento\',\'badge-coral\',true)"><span class="opt-dot"></span>Em Andamento</div>' +
+              '<div class="status-opt" data-status="agendado"       onclick="setStatus(\'' + coop.id + '\',\'agendado\',\'⏳ Agendado\',\'badge-yellow\',false)"><span class="opt-dot"></span>Agendado</div>' +
+              '<div class="status-opt" data-status="em-confirmacao" onclick="setStatus(\'' + coop.id + '\',\'em-confirmacao\',\'⏳ Em Confirmação\',\'badge-yellow\',false)"><span class="opt-dot"></span>Em Confirmação</div>' +
+              '<div class="status-opt" data-status="em-prospeccao"  onclick="setStatus(\'' + coop.id + '\',\'em-prospeccao\',\'Em Prospecção\',\'badge-coral\',true)"><span class="opt-dot"></span>Em Prospecção</div>' +
+              '<div class="status-opt" data-status="concluido"      onclick="setStatus(\'' + coop.id + '\',\'concluido\',\'✓ Concluído\',\'badge-teal\',false)"><span class="opt-dot"></span>Concluído</div>' +
+              '<div class="status-opt" data-status="pausado"        onclick="setStatus(\'' + coop.id + '\',\'pausado\',\'⏸ Pausado\',\'badge-muted\',false)"><span class="opt-dot"></span>Pausado</div>' +
+            '</div>' +
+          '</div>' +
+          '<button onclick="removerCoop(\'' + coop.id + '\')" title="Remover cooperativa" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:4px;color:var(--text-muted);padding:3px 7px;cursor:pointer;font-size:12px;transition:var(--transition);" onmouseover="this.style.color=\'var(--coral)\';this.style.borderColor=\'var(--coral)\'" onmouseout="this.style.color=\'\';this.style.borderColor=\'\'">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="two-col" style="margin-bottom:16px;">' +
+        '<div class="content-block">' +
+          '<div class="block-title" contenteditable="true">Status da Relação</div>' +
+          '<div contenteditable="true" style="color:var(--text-light);font-size:13px;line-height:1.7;min-height:80px;">' + coop.relacao + '</div>' +
+        '</div>' +
+        '<div class="content-block">' +
+          '<div class="block-title" contenteditable="true">Próximos Passos</div>' +
+          '<div contenteditable="true" style="color:var(--text-light);font-size:13px;line-height:1.7;min-height:80px;">' + coop.passos + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  container.appendChild(wrap);
+
+  // Aplica o estado correto de edição nos novos elementos
+  var ceState = editMode ? 'true' : 'false';
+  wrap.querySelectorAll('[contenteditable]').forEach(function(el){
+    el.setAttribute('contenteditable', ceState);
+  });
+}
+
+function removerCoop(id) {
+  if (!editMode) return;
+  if (!confirm('Remover esta cooperativa?')) return;
+  extraCoops = extraCoops.filter(function(c){ return c.id !== id; });
+  var wrap = document.querySelector('[data-coop-id="' + id + '"]');
+  if (wrap) wrap.remove();
+  salvarSilencioso();
+}
+
+// ── SAVE/LOAD EXTRA COOPS ──
+function salvarExtraCoops() {
+  // Coleta estado atual dos campos das coops extras antes de salvar
+  extraCoops.forEach(function(coop) {
+    var wrap = document.querySelector('[data-coop-id="' + coop.id + '"]');
+    if (!wrap) return;
+    var editables = wrap.querySelectorAll('[contenteditable]');
+    // heading, nome, data, bloco relacao title, relacao text, passos title, passos text
+    if (editables[1]) coop.nome   = editables[1].innerHTML;
+    if (editables[2]) coop.data   = editables[2].innerHTML;
+    if (editables[4]) coop.relacao = editables[4].innerHTML;
+    if (editables[6]) coop.passos  = editables[6].innerHTML;
+    // tag
+    var tagEl = document.getElementById('tag-' + coop.id);
+    if (tagEl) {
+      var t = tagEl.querySelector('.coop-tag');
+      coop.tagCls   = Array.from(t.classList).find(function(c){ return c.startsWith('tag-') && c !== 'coop-tag'; }) || coop.tagCls;
+      coop.tagLabel = t.textContent.trim();
+    }
+    // status
+    var selEl = document.getElementById('sel-' + coop.id);
+    if (selEl) {
+      var b = selEl.querySelector('.badge');
+      coop.badgeClass   = Array.from(b.classList).find(function(c){ return c.startsWith('badge-') && c !== 'badge'; }) || coop.badgeClass;
+      coop.hasDot       = !!b.querySelector('.badge-dot');
+      var lbl = '';
+      b.childNodes.forEach(function(n){ if(n.nodeType===3) lbl += n.textContent; });
+      coop.statusLabel  = lbl.trim();
+    }
+  });
+  try { localStorage.setItem('biotrop_extra_coops_v1', JSON.stringify(extraCoops)); } catch(e){}
+  return extraCoops;
+}
+
+function carregarExtraCoops(saved) {
+  if (!saved || !saved.length) return;
+  extraCoops = saved;
+  saved.forEach(function(coop){ renderExtraCoop(coop); });
+  getEditableIndex();
+}
+
+// Estende coletarEstado para incluir extra coops
+var _origColetarEstado = coletarEstado;
+coletarEstado = function() {
+  var state = _origColetarEstado();
+  state.extraCoops = salvarExtraCoops();
+  return state;
+};
+
+// Estende aplicarEstado para restaurar extra coops
+var _origAplicarEstado = aplicarEstado;
+aplicarEstado = function(state) {
+  _origAplicarEstado(state);
+  if (state.extraCoops && state.extraCoops.length) {
+    document.getElementById('coopsExtras').innerHTML = '';
+    extraCoops = [];
+    carregarExtraCoops(state.extraCoops);
+  }
+};
+
+// Mostra/esconde botão de adicionar conforme modo de edição
+var _origAtivarEdicao = ativarEdicao;
+ativarEdicao = function() {
+  _origAtivarEdicao();
+  document.getElementById('addCoopBtn').style.display = 'flex';
+};
+var _origSairEdicao = sairEdicao;
+sairEdicao = function() {
+  _origSairEdicao();
+  document.getElementById('addCoopBtn').style.display = 'none';
+};// ── MODAL NOVO POST ZMP ──
+var extraPosts = [];
+
+function abrirModalPost() {
+  if (!editMode) return;
+  document.getElementById('modalPost').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('npTitulo').focus(); }, 100);
+}
+function fecharModalPost() {
+  document.getElementById('modalPost').style.display = 'none';
+  ['npData','npTitulo','npTexto','npHashtags','npLink'].forEach(function(id){ document.getElementById(id).value = ''; });
+  document.querySelectorAll('.np-tag-cb').forEach(function(cb){ cb.checked = false; });
+}
+
+function criarPost() {
+  var titulo = document.getElementById('npTitulo').value.trim();
+  if (!titulo) { alert('Informe o título da publicação.'); return; }
+  var fonteVal = document.getElementById('npFonte').value;
+  var fonteMap = {
+    'linkedin':    { cls:'zmp-linkedin', label:'in LinkedIn' },
+    'linkedin-jp': { cls:'zmp-linkedin', label:'in LinkedIn · JP Zampieri' },
+    'instagram':   { cls:'zmp-instagram', label:'📷 Instagram' },
+    'site':        { cls:'zmp-site', label:'🌐 Site ZMP' }
+  };
+  var fonte = fonteMap[fonteVal] || fonteMap['linkedin'];
+  var tags  = Array.from(document.querySelectorAll('.np-tag-cb:checked')).map(function(cb){ return cb.value; });
+  var post  = {
+    id:       'post_' + Date.now(),
+    fonteCls: fonte.cls, fonteLabel: fonte.label,
+    data:     document.getElementById('npData').value.trim() || '2026',
+    tags:     tags,
+    titulo:   titulo,
+    texto:    document.getElementById('npTexto').value.trim() || '',
+    hashtags: document.getElementById('npHashtags').value.trim() || '',
+    link:     document.getElementById('npLink').value.trim() || 'https://br.linkedin.com/company/zmp-consultoria'
+  };
+  extraPosts.push(post);
+  renderPost(post);
+  fecharModalPost();
+  salvarSilencioso();
+}
+
+function renderPost(post) {
+  var grid = document.getElementById('zmpGrid');
+  var extras = document.getElementById('zmpPostsExtras');
+
+  var tagHtml = (post.tags || []).map(function(t) {
+    var styleMap = {
+      mercado:     '', cooperativas: '',
+      gestao:      'style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);"',
+      lideranca:   'style="background:rgba(160,100,220,0.15);color:#a064dc;border-color:rgba(160,100,220,0.3);"',
+      treinamento: 'style="background:rgba(74,144,217,0.15);color:#4a90d9;border-color:rgba(74,144,217,0.3);"',
+      vendas:      'style="background:rgba(74,144,217,0.15);color:#4a90d9;border-color:rgba(74,144,217,0.3);"',
+      estrategia:  ''
+    };
+    var clsMap = { mercado:'tag-mercado', cooperativas:'tag-cooperativas', gestao:'', lideranca:'', treinamento:'', vendas:'', estrategia:'tag-mercado' };
+    return '<span class="news-tag ' + (clsMap[t]||'tag-mercado') + '" ' + (styleMap[t]||'') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</span>';
+  }).join('');
+
+  var card = document.createElement('a');
+  card.className = 'zmp-card';
+  card.href = post.link;
+  card.target = '_blank';
+  card.dataset.zcats = (post.tags||[]).join(' ');
+  card.dataset.postId = post.id;
+  card.innerHTML =
+    '<div class="zmp-card-top">' +
+      '<div class="zmp-card-meta">' +
+        '<span class="zmp-source ' + post.fonteCls + '">' + post.fonteLabel + '</span>' +
+        '<span class="zmp-date">' + post.data + '</span>' +
+      '</div>' +
+      '<div class="zmp-card-tags">' + tagHtml + '</div>' +
+      '<div class="zmp-headline">' + post.titulo + '</div>' +
+      '<div class="zmp-excerpt">' + (post.texto || '') + '</div>' +
+    '</div>' +
+    '<div class="zmp-card-bottom">' +
+      '<span class="zmp-hashtags">' + (post.hashtags||'') + '</span>' +
+      '<button onclick="event.preventDefault();removerPost(\'' + post.id + '\')" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:4px;color:var(--text-muted);padding:3px 7px;cursor:pointer;font-size:11px;flex-shrink:0;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'\'">✕</button>' +
+      '<span class="zmp-arrow">→</span>' +
+    '</div>';
+
+  // Append to main grid as new card
+  var addBtn = document.getElementById('addPostBtn');
+  grid.appendChild(card);
+}
+
+function removerPost(id) {
+  if (!editMode) return;
+  extraPosts = extraPosts.filter(function(p){ return p.id !== id; });
+  var card = document.querySelector('.zmp-card[data-post-id="' + id + '"]');
+  if (card) card.remove();
+  salvarSilencioso();
+}
+
+// Integra com ativarEdicao / sairEdicao para mostrar/esconder botão
+var _origAtivarEdicao2 = ativarEdicao;
+ativarEdicao = function() {
+  _origAtivarEdicao2();
+  var btn = document.getElementById('addPostBtn');
+  if (btn) btn.style.display = 'flex';
+};
+var _origSairEdicao2 = sairEdicao;
+sairEdicao = function() {
+  _origSairEdicao2();
+  var btn = document.getElementById('addPostBtn');
+  if (btn) btn.style.display = 'none';
+};
+
+// Integra com coletarEstado / aplicarEstado
+var _origColetarEstado2 = coletarEstado;
+coletarEstado = function() {
+  var state = _origColetarEstado2();
+  state.extraPosts = extraPosts;
+  return state;
+};
+var _origAplicarEstado2 = aplicarEstado;
+aplicarEstado = function(state) {
+  _origAplicarEstado2(state);
+  if (state.extraPosts && state.extraPosts.length) {
+    // Remove posts extras existentes do grid
+    document.querySelectorAll('#zmpGrid .zmp-card[data-post-id]').forEach(function(c){ c.remove(); });
+    extraPosts = [];
+    state.extraPosts.forEach(function(p){ extraPosts.push(p); renderPost(p); });
+  }
+};
 </script>
 </body>
 </html>
