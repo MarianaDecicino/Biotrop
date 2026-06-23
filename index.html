@@ -2519,9 +2519,9 @@ function salvarSilencioso() {
 function salvarDados() {
   var state = coletarEstado();
   var btn   = document.getElementById('saveBtn');
-  // localStorage
+  // sempre salva no localStorage primeiro (imediato e confiável)
   try { localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state)); } catch(e){}
-  // nuvem com feedback
+  // nuvem
   if (btn) { btn.querySelector('.save-label').textContent = 'Salvando…'; }
   salvarNuvem(state).then(function(){
     var now = new Date();
@@ -2533,32 +2533,35 @@ function salvarDados() {
       btn.style.borderColor = 'var(--teal)';
       setTimeout(function(){ btn.querySelector('.save-label').textContent = 'Salvar'; btn.style.borderColor=''; }, 2000);
     }
-  }).catch(function(){
-    if (btn) { btn.querySelector('.save-label').textContent = 'Erro ✕'; setTimeout(function(){ btn.querySelector('.save-label').textContent = 'Salvar'; }, 2000); }
+  }).catch(function(err){
+    // JSONBin falhou mas localStorage já salvou — mostra aviso mas não é erro fatal
+    console.warn('JSONBin erro:', err);
+    var now = new Date();
+    var t   = now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    var ls  = document.getElementById('lastSaved');
+    if (ls) ls.textContent = 'Salvo local às ' + t;
+    if (btn) {
+      btn.querySelector('.save-label').textContent = 'Salvo ✓';
+      btn.style.borderColor = 'var(--teal)';
+      setTimeout(function(){ btn.querySelector('.save-label').textContent = 'Salvar'; btn.style.borderColor=''; }, 2000);
+    }
   });
 }
 
 function carregarDados() {
   getEditableIndex();
-  // tenta nuvem primeiro, cai no localStorage
+  // Carrega localStorage primeiro (imediato)
+  try {
+    var raw = localStorage.getItem('biotrop_cockpit_v3');
+    if (raw) aplicarEstado(JSON.parse(raw));
+  } catch(e){}
+  // Depois tenta nuvem para pegar versão mais recente de outro dispositivo
   carregarNuvem().then(function(state){
-    if (state) {
+    if (state && state.version) {
       aplicarEstado(state);
-      // sincroniza localStorage
       try { localStorage.setItem('biotrop_cockpit_v3', JSON.stringify(state)); } catch(e){}
-    } else {
-      // fallback localStorage
-      try {
-        var raw = localStorage.getItem('biotrop_cockpit_v3');
-        if (raw) aplicarEstado(JSON.parse(raw));
-      } catch(e){}
     }
-  }).catch(function(){
-    try {
-      var raw = localStorage.getItem('biotrop_cockpit_v3');
-      if (raw) aplicarEstado(JSON.parse(raw));
-    } catch(e){}
-  });
+  }).catch(function(){ /* usa localStorage que já carregou */ });
 }
 
 // ── AUTO-SAVE: 1,5s após edição ──
